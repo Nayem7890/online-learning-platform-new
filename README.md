@@ -1,16 +1,22 @@
-# React + Vite
+SkillSphere – Online Learning Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Live Site: 
 
-Currently, two official plugins are available:
+Server (API) URL: 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+SkillSphere is a full-stack online learning platform where instructors can share courses and learners can explore, filter, enroll, and manage their learning—built with React, Express, and MongoDB (native driver, no Mongoose).
 
-## React Compiler
+✨ Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1/ Modern Auth – Email/Password + Google Sign-In via Firebase. Private routes survive page refreshes.
 
-## Expanding the ESLint configuration
+2/ Courses CRUD – Instructors can add, update, delete, and view their own courses. All data persisted in MongoDB.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+3/ Smart Browse – All Courses page with search, sort, and category filtering, plus a minimal, responsive UI.
+
+4/ Delightful UI/UX – Tailwind + DaisyUI, animated sections (Framer Motion/AOS), and toast notifications (react-hot-toast).
+
+5/ Dashboard – “My Courses” (added by you) and “My Enrolled” pages; quick actions and confirmation dialogs.
+
+6/ Performance & DX – TanStack Query for fetching/caching, Axios for API calls.
+

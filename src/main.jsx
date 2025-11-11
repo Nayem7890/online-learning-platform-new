@@ -14,6 +14,10 @@ import Register from './pages/Register';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
 import AuthProvider from './Providers/AuthProvider';
+import MyCourses from './pages/MyCourses';
+import AddCourse from './pages/AddCourse';
+import MyEnrolled from './pages/MyEnrolled';
+import DashboardLayout from './Layouts/DashboardLayout';
 
 
 const router = createBrowserRouter([
@@ -38,6 +42,15 @@ const router = createBrowserRouter([
       { path: "register", 
         element: <Register /> 
       },
+    ],
+  },
+  {
+    path: "/dashboard",
+    element: <PrivateRoute><DashboardLayout /></PrivateRoute>,
+    children: [
+      { path: "add-course", element: <AddCourse /> },
+      { path: "my-courses", element: <MyCourses /> },
+      { path: "my-enrolled", element: <MyEnrolled /> },
     ],
   },
 ]);
