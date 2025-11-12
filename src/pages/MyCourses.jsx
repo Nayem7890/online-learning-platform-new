@@ -1,17 +1,13 @@
 // src/pages/MyCourses.jsx
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router";
-import axios from "axios";
+
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useAuth } from "../Providers/AuthProvider";
-
-
-const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:3000",
-});
+import api from "../api/api"; 
 
 const FALLBACK_IMG = "https://i.ibb.co/5GzXgmq/avatar.png";
 const fmtPrice = (v) => `$${Number(v || 0).toFixed(2)}`;
@@ -184,10 +180,7 @@ export default function MyCourses() {
     <div className="py-8">
       <div className="container mx-auto px-4">
         {/* Header */}
-        <div
-          data-aos="fade-up"
-          className="flex flex-col gap-4 mb-6"
-        >
+        <div data-aos="fade-up" className="flex flex-col gap-4 mb-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <h1 className="text-3xl md:text-4xl font-bold">My Courses</h1>
             <Link
@@ -252,10 +245,7 @@ export default function MyCourses() {
 
         {/* Results Count */}
         {filteredSorted.length > 0 && (
-          <p
-            className="text-sm opacity-70 mb-4"
-            data-aos="fade-up"
-          >
+          <p className="text-sm opacity-70 mb-4" data-aos="fade-up">
             Showing {filteredSorted.length} course
             {filteredSorted.length !== 1 ? "s" : ""}
           </p>
@@ -354,10 +344,7 @@ export default function MyCourses() {
             })}
           </div>
         ) : (
-          <div
-            className="text-center py-16"
-            data-aos="fade-up"
-          >
+          <div className="text-center py-16" data-aos="fade-up">
             <div className="max-w-md mx-auto">
               <div className="text-6xl mb-4">📚</div>
               <p className="text-lg mb-2 font-semibold">

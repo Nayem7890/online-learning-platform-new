@@ -12,10 +12,9 @@ import {
   useMutation,
   useQueryClient,
 } from "@tanstack/react-query";
-import axios from "axios";
 import toast from "react-hot-toast";
+import api from "../api/api"; // ✅ shared axios instance with token
 
-const API = import.meta.env.VITE_API_URL || "http://localhost:3000";
 const FALLBACK_IMG = "https://i.ibb.co/5GzXgmq/avatar.png";
 
 const fmtPrice = (v) => `$${Number(v || 0).toFixed(2)}`;
@@ -59,7 +58,7 @@ export default function CourseDetails() {
   } = useQuery({
     queryKey: ["course", id],
     queryFn: async () => {
-      const resp = await axios.get(`${API}/courses/${id}`);
+      const resp = await api.get(`/courses/${id}`); // ✅ uses api
       return resp.data;
     },
     initialData: initialCourse,
@@ -82,11 +81,9 @@ export default function CourseDetails() {
     mutate: enrollMutate,
     isPending: isEnrolling,
   } = useMutation({
-    mutationFn: (body) =>
-      axios.post(`${API}/my-enrolled-course`, body),
+    mutationFn: (body) => api.post("/my-enrolled-course", body), // ✅ uses api
     onSuccess: () => {
       toast.success("Successfully enrolled in the course!");
-      // update MyEnrolled cache
       if (user?.email) {
         queryClient.invalidateQueries({
           queryKey: ["myEnrolled", user.email],
@@ -117,19 +114,12 @@ export default function CourseDetails() {
       return;
     }
 
-    // send a snapshot of the course info so MyEnrolled can show it
+    // minimal fields backend actually uses; extra fields are fine too if you want
     enrollMutate({
       courseId: course._id,
-      title: course.title,
-      imageUrl: course.imageUrl,
-      price: course.price,
-      category: course.category,
-      description: course.description,
-      duration: course.duration,
       studentEmail: user.email,
       studentName: user.displayName,
       studentPhoto: user.photoURL,
-      enrolledAt: new Date().toISOString(),
     });
   };
 

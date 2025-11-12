@@ -1,11 +1,12 @@
 // src/pages/UpdateCourse.jsx
 import { useEffect, useMemo, useState } from "react";
 import { useParams, useNavigate } from "react-router";
-import axios from "axios";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import AOS from "aos";
 import "aos/dist/aos.css";
+
+import api from "../api/api"; // ✅ use the shared axios instance WITH token
 
 const CATEGORIES = [
   "Web Development",
@@ -20,8 +21,6 @@ const CATEGORIES = [
   "Graphic Design",
 ];
 
-// 👇 Make sure this matches your server exactly
-const API = import.meta.env.VITE_API_URL || "http://localhost:3000";
 const FALLBACK_IMG = "https://i.ibb.co/5GzXgmq/avatar.png";
 
 export default function UpdateCourse() {
@@ -45,14 +44,13 @@ export default function UpdateCourse() {
     AOS.init({ duration: 800, once: true });
   }, []);
 
-  // --- Load the course ---
+  // --- Load the course (protected route) ---
   const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ["course", id],
     queryFn: async () => {
-      const res = await axios.get(`http://localhost:3000/courses/${id}`, {
-        // If your API needs cookies/sessions:
-        // withCredentials: true,
-        validateStatus: (s) => s >= 200 && s < 300, // only 2xx treated as success
+      // ✅ use api.get so Authorization header is attached
+      const res = await api.get(`/courses/${id}`, {
+        validateStatus: (s) => s >= 200 && s < 300,
       });
       return res.data;
     },
@@ -65,7 +63,7 @@ export default function UpdateCourse() {
     return Array.isArray(data) ? data[0] : data;
   }, [data]);
 
-  // Fill form
+  // Fill form when course loads
   useEffect(() => {
     if (!course) return;
     setForm({
@@ -82,7 +80,10 @@ export default function UpdateCourse() {
   // Handlers
   const onChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setForm((p) => ({ ...p, [name]: type === "checkbox" ? checked : value }));
+    setForm((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
   };
 
   const validate = () => {
@@ -100,7 +101,10 @@ export default function UpdateCourse() {
   const onSubmit = async (e) => {
     e.preventDefault();
     const err = validate();
-    if (err) return toast.error(err);
+    if (err) {
+      toast.error(err);
+      return;
+    }
 
     const payload = {
       title: form.title.trim(),
@@ -113,22 +117,25 @@ export default function UpdateCourse() {
       updatedAt: new Date().toISOString(),
     };
 
-      try {
-    setSubmitting(true);
-    const { data } = await axios.put(`${API}/courses/${id}`, payload);
-    // if you changed server to return {message, data}, both work:
-    toast.success("Course updated successfully");
-    // optionally: toast.success(data?.message || "Course updated successfully");
-    qc.invalidateQueries({ queryKey: ["course", id] });
-    qc.invalidateQueries({ queryKey: ["myCourses"] });
-    navigate("/dashboard/my-courses");
-  } catch (e1) {
-    const msg = e1?.response?.data?.message || "Failed to update course. Please try again.";
-    toast.error(msg);
-  } finally {
-    setSubmitting(false);
-  }
-};
+    try {
+      setSubmitting(true);
+      // ✅ use api.put so token is sent
+      const { data } = await api.put(`/courses/${id}`, payload);
+      toast.success(data?.message || "Course updated successfully");
+      qc.invalidateQueries({ queryKey: ["course", id] });
+      qc.invalidateQueries({ queryKey: ["myCourses"] });
+      navigate("/dashboard/my-courses");
+    } catch (e1) {
+      const msg =
+        e1?.response?.data?.message ||
+        e1?.response?.data?.error ||
+        "Failed to update course. Please try again.";
+      toast.error(msg);
+      console.error("Update failed:", e1);
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   // UI states
   if (isLoading) {
@@ -158,11 +165,18 @@ export default function UpdateCourse() {
   return (
     <div className="py-8">
       <div className="container mx-auto px-4 max-w-2xl">
-        <h1 className="text-3xl md:text-4xl font-bold mb-6 text-center" data-aos="fade-up">
+        <h1
+          className="text-3xl md:text-4xl font-bold mb-6 text-center"
+          data-aos="fade-up"
+        >
           Update Course
         </h1>
 
-        <form onSubmit={onSubmit} className="card bg-base-200 shadow-xl p-6" data-aos="fade-up">
+        <form
+          onSubmit={onSubmit}
+          className="card bg-base-200 shadow-xl p-6"
+          data-aos="fade-up"
+        >
           <div className="space-y-4">
             {/* Title */}
             <div>
@@ -300,7 +314,11 @@ export default function UpdateCourse() {
               >
                 Cancel
               </button>
-              <button type="submit" className="btn btn-primary" disabled={submitting}>
+              <button
+                type="submit"
+                className="btn btn-primary"
+                disabled={submitting}
+              >
                 {submitting ? (
                   <>
                     <span className="loading loading-spinner loading-sm" />
