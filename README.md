@@ -1,8 +1,8 @@
 SkillSphere – Online Learning Platform
 
-Live Site: <>
+Live Site(Netlify): <https://amazing-bonbon-c86e7a.netlify.app/>
 
-Server(API) URL: <>
+Server(API) URL: <skillsphere-server-rosy.vercel.app>
 
 SkillSphere is a full-stack online learning platform where instructors can share courses and learners can explore, filter, enroll, and manage their learning—built with React, Express, and MongoDB (native driver).
 

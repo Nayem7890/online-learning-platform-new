@@ -25,7 +25,7 @@ const Login = () => {
       await login(email.trim(), password);
       navigate(from, { replace: true });
     } catch {
-      // AuthProvider handles toasts
+      // AuthProvider
     } finally {
       setIsSubmitting(false);
     }
@@ -37,14 +37,14 @@ const Login = () => {
       await googleLogin();
       navigate(from, { replace: true });
     } catch {
-      // AuthProvider handles toasts
+      // AuthProvider
     } finally {
       setIsSubmitting(false);
     }
   };
 
   const disabled =
-    isSubmitting || !email.trim() || !password; // basic guard
+    isSubmitting || !email.trim() || !password; 
 
   return (
     <div className="min-h-[80vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-violet-100">
@@ -104,7 +104,7 @@ const Login = () => {
               </div>
             </div>
 
-            {/* Requirement says don't implement forgot password; keep as plain text */}
+            
             <div className="flex items-center justify-between text-sm opacity-70">
               <span>Forgot password?</span>
             </div>

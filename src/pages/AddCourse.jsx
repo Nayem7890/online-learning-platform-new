@@ -1,4 +1,4 @@
-// src/pages/AddCourse.jsx
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import toast from "react-hot-toast";
@@ -62,7 +62,7 @@ const AddCourse = () => {
       return;
     }
 
-    // --- client-side validation ---
+    
     const priceNum = Number(formData.price);
     const durationNum = Number(formData.duration);
 
@@ -74,7 +74,7 @@ const AddCourse = () => {
     if (Number.isNaN(durationNum) || durationNum <= 0)
       return toast.error("Invalid duration (hours)");
 
-    // --- payload matching your MongoDB schema ---
+    
     const now = new Date().toISOString();
     const payload = {
       title: formData.title.trim(),
@@ -99,7 +99,7 @@ const AddCourse = () => {
 
     try {
       setLoading(true);
-      // ✅ use api instance (it already attaches Authorization header)
+      
       await api.post("/courses", payload);
       toast.success("Course added successfully!");
       navigate("/dashboard/my-courses");
@@ -114,7 +114,7 @@ const AddCourse = () => {
     }
   };
 
-  // Optional: If user somehow reaches this page without being logged in
+ 
   if (!user) {
     return (
       <div className="min-h-[60vh] grid place-items-center text-center">
@@ -242,7 +242,7 @@ const AddCourse = () => {
                 </div>
               </div>
 
-              {/* Category */}
+              
               <div>
                 <label className="label">
                   <span className="label-text">Category *</span>
@@ -263,7 +263,7 @@ const AddCourse = () => {
                 </select>
               </div>
 
-              {/* Description */}
+            
               <div>
                 <label className="label">
                   <span className="label-text">Description *</span>
@@ -292,7 +292,7 @@ const AddCourse = () => {
                 </label>
               </div>
 
-              {/* Actions */}
+              
               <div className="card-actions justify-end mt-6">
                 <button
                   type="button"

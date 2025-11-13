@@ -22,7 +22,7 @@ const Register = () => {
   const { register: registerUser, googleLogin, user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/"; // ✅ redirect to intended page
+  const from = location.state?.from?.pathname || "/"; // 
 
   useEffect(() => {
     document.title = "Register - SkillSphere";
@@ -67,7 +67,7 @@ const Register = () => {
       );
       navigate(from, { replace: true });
     } catch {
-      // Error toast handled in AuthProvider
+      // Error toast
     } finally {
       setIsSubmitting(false);
     }
@@ -79,7 +79,7 @@ const Register = () => {
       await googleLogin();
       navigate(from, { replace: true });
     } catch {
-      // Error toast handled in AuthProvider
+      // Error toast 
     } finally {
       setIsSubmitting(false);
     }

@@ -1,4 +1,4 @@
-// src/components/Navbar.jsx
+
 import { useEffect, useState, useCallback } from "react";
 import { useAuth } from "../Providers/AuthProvider";
 import { NavLink, Link, useNavigate } from "react-router";
@@ -10,14 +10,14 @@ const Navbar = () => {
   const [theme, setTheme] = useState("light");
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  // Read saved theme on mount
+
   useEffect(() => {
     const saved = localStorage.getItem("theme") || "light";
     setTheme(saved);
     document.documentElement.setAttribute("data-theme", saved);
   }, []);
 
-  // Prevent background scroll when mobile menu open
+  
   useEffect(() => {
     if (mobileOpen) {
       document.body.style.overflow = "hidden";
@@ -27,7 +27,7 @@ const Navbar = () => {
     return () => (document.body.style.overflow = "");
   }, [mobileOpen]);
 
-  // Close on escape
+  
   useEffect(() => {
     const onEsc = (e) => {
       if (e.key === "Escape") setMobileOpen(false);
@@ -56,14 +56,14 @@ const Navbar = () => {
     <nav className="bg-base-100 shadow-md sticky top-0 z-50">
       <div className="container mx-auto px-4">
         <div className="navbar">
-          {/* Left: Brand */}
+         
           <div className="flex-1">
             <Link to="/" className="btn btn-ghost text-xl font-extrabold">
               SkillSphere
             </Link>
           </div>
 
-          {/* Right: Desktop Menu */}
+         
           <div className="hidden lg:flex items-center gap-2">
             <NavLink to="/" end className={navItemClass}>
               Home
@@ -125,7 +125,7 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Mobile: Hamburger */}
+         
           <div className="lg:hidden">
             <button
               className="btn btn-square btn-ghost"
@@ -159,7 +159,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Backdrop */}
+     
       {mobileOpen && (
         <div
           className="fixed inset-0 top-[64px] bg-black/50 z-40 lg:hidden"
@@ -168,7 +168,7 @@ const Navbar = () => {
         />
       )}
 
-      {/* Mobile Menu */}
+     
       <div
         className={`lg:hidden absolute left-0 right-0 z-50 bg-base-100 shadow-md border-t transition-[max-height,opacity] duration-200 overflow-hidden ${
           mobileOpen ? "max-h-[70vh] opacity-100" : "max-h-0 opacity-0"
@@ -211,7 +211,7 @@ const Navbar = () => {
             <button
               onClick={() => {
                 toggleTheme();
-                // keep menu open so user sees the change
+                
               }}
               className="btn btn-ghost justify-start w-full"
               aria-label="Toggle theme"

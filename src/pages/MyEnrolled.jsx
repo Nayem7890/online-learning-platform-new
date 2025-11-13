@@ -1,4 +1,4 @@
-// src/pages/MyEnrolled.jsx
+
 import { useEffect, useMemo } from "react";
 import { Link } from "react-router";
 import { useAuth } from "../Providers/AuthProvider";
@@ -6,13 +6,13 @@ import { useAuth } from "../Providers/AuthProvider";
 import { useQuery } from "@tanstack/react-query";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import api from "../api/api"; // ✅ shared axios instance with auth token
+import api from "../api/api"; 
 
-// Neutral placeholder image
+// image
 const FALLBACK_IMG =
   "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop";
 
-// Helper function to format price
+
 const fmtPrice = (v) => `$${Number(v || 0).toFixed(2)}`;
 
 export default function MyEnrolled() {
@@ -34,7 +34,7 @@ export default function MyEnrolled() {
     queryKey: ["myEnrolled", user?.email],
     queryFn: async () => {
       if (!user?.email) return [];
-      // ✅ Uses api (with Authorization header)
+      
       const { data } = await api.get("/my-enrolled-course", {
         params: { studentEmail: user.email },
       });
@@ -45,7 +45,7 @@ export default function MyEnrolled() {
     staleTime: 60_000,
   });
 
-  // Sort by newest enrollment first
+  
   const sortedEnrollments = useMemo(() => {
     return [...enrollments].sort((a, b) => {
       const dateA = new Date(a?.enrolledAt || 0).getTime();
@@ -54,7 +54,7 @@ export default function MyEnrolled() {
     });
   }, [enrollments]);
 
-  // 1. Auth Guard
+  
   if (!user) {
     return (
       <div className="min-h-[60vh] grid place-items-center text-center">
@@ -70,7 +70,7 @@ export default function MyEnrolled() {
     );
   }
 
-  // 2. Loading
+  
   if (isLoading) {
     return (
       <div className="py-8 container mx-auto px-4">
@@ -91,7 +91,7 @@ export default function MyEnrolled() {
     );
   }
 
-  // 3. Error
+  
   if (isError) {
     return (
       <div className="min-h-[60vh] grid place-items-center">
@@ -107,7 +107,7 @@ export default function MyEnrolled() {
     );
   }
 
-  // 4. Empty state
+  
   if (sortedEnrollments.length === 0) {
     return (
       <div className="min-h-[60vh] grid place-items-center">
@@ -121,7 +121,7 @@ export default function MyEnrolled() {
     );
   }
 
-  // 5. Success
+  
   return (
     <div className="py-8">
       <div className="container mx-auto px-4">
@@ -131,9 +131,7 @@ export default function MyEnrolled() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {sortedEnrollments.map((enrollment, idx) => {
-            // Support both:
-            // 1) { ...enrollment, course: { ...courseDetails } }  (lookup pipeline)
-            // 2) { ...enrollment, ...courseDetails }              (flattened snapshot)
+            
             const c = enrollment.course || enrollment;
 
             const title = c.title || "Untitled Course";

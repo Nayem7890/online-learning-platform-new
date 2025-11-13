@@ -1,4 +1,4 @@
-// src/api/api.js
+
 import axios from "axios";
 import { auth } from "../firebase/firebase.config";
 
@@ -6,7 +6,7 @@ const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || "http://localhost:3000",
 });
 
-// Attach Firebase ID token automatically for PROTECTED routes
+
 api.interceptors.request.use(
   async (config) => {
     const currentUser = auth.currentUser;

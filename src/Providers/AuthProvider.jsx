@@ -1,4 +1,4 @@
-// src/Providers/AuthProvider.jsx
+
 import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
@@ -26,7 +26,7 @@ const AuthProvider = ({ children }) => {
   const [idToken, setIdToken] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Keep user + token in sync with Firebase
+  
   useEffect(() => {
     const unsub = onIdTokenChanged(auth, async (currentUser) => {
       setLoading(true);
@@ -50,7 +50,7 @@ const AuthProvider = ({ children }) => {
     return () => unsub();
   }, []);
 
-  // --- Auth methods (unchanged logic, just rely on onIdTokenChanged) ---
+  
   const register = async (email, password, name, photoURL) => {
     try {
       const cred = await createUserWithEmailAndPassword(auth, email, password);
@@ -99,7 +99,7 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  // Helper to always get a fresh token when needed
+  
   const getIdToken = async (forceRefresh = false) => {
     if (!auth.currentUser) return null;
     const token = await auth.currentUser.getIdToken(forceRefresh);
@@ -111,7 +111,7 @@ const AuthProvider = ({ children }) => {
     user,
     loading,
     idToken,
-    getIdToken,   // 👈 expose this for axios calls if needed
+    getIdToken,   
     register,
     login,
     googleLogin,

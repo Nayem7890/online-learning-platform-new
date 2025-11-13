@@ -1,4 +1,4 @@
-// src/pages/UpdateCourse.jsx
+
 import { useEffect, useMemo, useState } from "react";
 import { useParams, useNavigate } from "react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
-import api from "../api/api"; // ✅ use the shared axios instance WITH token
+import api from "../api/api"; 
 
 const CATEGORIES = [
   "Web Development",
@@ -44,11 +44,11 @@ export default function UpdateCourse() {
     AOS.init({ duration: 800, once: true });
   }, []);
 
-  // --- Load the course (protected route) ---
+  
   const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ["course", id],
     queryFn: async () => {
-      // ✅ use api.get so Authorization header is attached
+      // Authorization 
       const res = await api.get(`/courses/${id}`, {
         validateStatus: (s) => s >= 200 && s < 300,
       });
@@ -57,13 +57,13 @@ export default function UpdateCourse() {
     enabled: !!id,
   });
 
-  // Normalize object OR [object]
+  
   const course = useMemo(() => {
     if (!data) return null;
     return Array.isArray(data) ? data[0] : data;
   }, [data]);
 
-  // Fill form when course loads
+  
   useEffect(() => {
     if (!course) return;
     setForm({
@@ -77,7 +77,7 @@ export default function UpdateCourse() {
     });
   }, [course]);
 
-  // Handlers
+  
   const onChange = (e) => {
     const { name, value, type, checked } = e.target;
     setForm((prev) => ({
@@ -119,7 +119,7 @@ export default function UpdateCourse() {
 
     try {
       setSubmitting(true);
-      // ✅ use api.put so token is sent
+     
       const { data } = await api.put(`/courses/${id}`, payload);
       toast.success(data?.message || "Course updated successfully");
       qc.invalidateQueries({ queryKey: ["course", id] });
@@ -137,7 +137,7 @@ export default function UpdateCourse() {
     }
   };
 
-  // UI states
+  
   if (isLoading) {
     return (
       <div className="min-h-[60vh] grid place-items-center">
@@ -161,7 +161,7 @@ export default function UpdateCourse() {
     );
   }
 
-  // --- Form ---
+  
   return (
     <div className="py-8">
       <div className="container mx-auto px-4 max-w-2xl">
@@ -178,7 +178,7 @@ export default function UpdateCourse() {
           data-aos="fade-up"
         >
           <div className="space-y-4">
-            {/* Title */}
+           
             <div>
               <label className="label">
                 <span className="label-text">Course Title *</span>
@@ -194,7 +194,7 @@ export default function UpdateCourse() {
               />
             </div>
 
-            {/* Image URL with preview */}
+            
             <div>
               <label className="label">
                 <span className="label-text">Course Image URL *</span>
@@ -217,7 +217,7 @@ export default function UpdateCourse() {
               </div>
             </div>
 
-            {/* Price & Duration */}
+            
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="label">
@@ -254,7 +254,7 @@ export default function UpdateCourse() {
               </div>
             </div>
 
-            {/* Category */}
+          
             <div>
               <label className="label">
                 <span className="label-text">Category *</span>
@@ -275,7 +275,7 @@ export default function UpdateCourse() {
               </select>
             </div>
 
-            {/* Description */}
+           
             <div>
               <label className="label">
                 <span className="label-text">Description *</span>
@@ -290,7 +290,7 @@ export default function UpdateCourse() {
               />
             </div>
 
-            {/* Featured */}
+           
             <div className="form-control">
               <label className="label cursor-pointer">
                 <span className="label-text">Featured Course</span>
@@ -304,7 +304,7 @@ export default function UpdateCourse() {
               </label>
             </div>
 
-            {/* Actions */}
+        
             <div className="card-actions justify-end mt-6">
               <button
                 type="button"

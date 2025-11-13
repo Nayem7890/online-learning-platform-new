@@ -26,7 +26,7 @@ const Home = () => {
         setError("");
         setLoading(true);
 
-        // ✅ Correct axios call using API_URL
+        
         const { data } = await axios.get(`${API_URL}/popular-courses`, {
           signal: controller.signal,
         });
@@ -44,7 +44,7 @@ const Home = () => {
 
     run();
 
-    // cleanup for aborting request on unmount
+    
     return () => controller.abort();
   }, []);
 
@@ -80,7 +80,7 @@ const Home = () => {
 
   return (
     <div className="space-y-16">
-      {/* HERO */}
+      
       <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -153,7 +153,7 @@ const Home = () => {
               ))}
             </div>
           ) : error ? (
-            // error state
+            
             <div className="flex flex-col items-center gap-4 text-center">
               <p className="text-error font-medium">{error}</p>
               <button
@@ -164,7 +164,7 @@ const Home = () => {
               </button>
             </div>
           ) : (
-            // success state
+           
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {popularCourses.length ? (
                 popularCourses.map((course, index) => (

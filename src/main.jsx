@@ -20,7 +20,7 @@ import MyEnrolled from "./pages/MyEnrolled";
 import DashboardLayout from "./Layouts/DashboardLayout";
 import UpdateCourse from "./pages/UpdateCourse";
 
-// ✅ Use env var instead of hard-coding Vercel URL
+
 const API = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 const router = createBrowserRouter([
@@ -31,13 +31,13 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
 
-      // redirect /home -> /
+      
       { path: "home", element: <Navigate to="/" replace /> },
 
       {
         path: "courses",
         element: <AllCourses />,
-        // public route, so simple fetch is fine
+       
         loader: () => fetch(`${API}/courses`),
       },
 
@@ -48,7 +48,7 @@ const router = createBrowserRouter([
             <CourseDetails />
           </PrivateRoute>
         ),
-        // ❌ no loader here – CourseDetails uses react-query + api instance
+       
       },
 
       { path: "login", element: <Login /> },
@@ -70,8 +70,7 @@ const router = createBrowserRouter([
       {
         path: "update-course/:id",
         element: <UpdateCourse />,
-        // ❌ remove loader – this route is protected on the server
-        // and UpdateCourse.jsx already fetches via axios/api with token
+        
       },
     ],
   },

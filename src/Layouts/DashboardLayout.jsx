@@ -27,7 +27,7 @@ const DashboardLayout = () => {
 
         {/* Main content */}
         <div className="drawer-content flex flex-col min-h-screen">
-          {/* Mobile top bar */}
+         
           <div className="navbar bg-base-200 lg:hidden sticky top-0 z-20">
             <div className="flex-none">
               <label
@@ -79,14 +79,14 @@ const DashboardLayout = () => {
         <div className="drawer-side">
           <label htmlFor="dashboard-drawer" className="drawer-overlay" />
           <aside className="w-72 min-h-full bg-base-200 border-r border-base-300 sticky top-0">
-            {/* Brand */}
+          
             <div className="p-4 border-b border-base-300">
               <Link to="/" className="btn btn-ghost text-xl font-bold w-full justify-start">
                 SkillSphere
               </Link>
             </div>
 
-            {/* Menu */}
+          
             <nav className="p-4">
               <ul className="menu gap-1" role="menu" aria-label="Dashboard navigation">
                 {menuItems.map((item) => (
@@ -110,7 +110,7 @@ const DashboardLayout = () => {
               </ul>
             </nav>
 
-            {/* User card */}
+           
             <div className="p-4 mt-auto border-t border-base-300">
               <div className="flex items-center gap-3 mb-4">
                 <div className="avatar">

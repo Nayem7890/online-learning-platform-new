@@ -26,7 +26,7 @@ const AllCourses = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // UI state (mirrors URL but lets us debounce nicely)
+  
   const [searchInput, setSearchInput] = useState(searchParams.get("search") || "");
   const [sortValue, setSortValue] = useState(
     searchParams.get("sort") && searchParams.get("order")
@@ -40,7 +40,7 @@ const AllCourses = () => {
     AOS.init({ duration: 800, once: true, offset: 100 });
   }, []);
 
-  // Keep input & sort in sync if URL changes externally
+  
   useEffect(() => {
     setSearchInput(searchParams.get("search") || "");
     const s = searchParams.get("sort");
@@ -48,7 +48,7 @@ const AllCourses = () => {
     if (s && o) setSortValue(`${s}:${o}`);
   }, [searchParams]);
 
-  // Debounced search: update URL after 400ms of inactivity
+
   useEffect(() => {
     setIsSearching(true);
     const t = setTimeout(() => {
@@ -64,7 +64,7 @@ const AllCourses = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchInput]);
 
-  // Case-insensitive filter
+  
   const filtered = useMemo(() => {
     const q = (searchParams.get("search") || "").trim().toLowerCase();
     if (!q) return items;
@@ -77,7 +77,7 @@ const AllCourses = () => {
     });
   }, [items, searchParams]);
 
-  // Sort
+  
   const sorted = useMemo(() => {
     const [field, dir] = (sortValue || "createdAt:desc").split(":");
     const m = dir === "asc" ? 1 : -1;
@@ -155,7 +155,7 @@ const AllCourses = () => {
       </motion.section>
 
       <div className="container mx-auto px-4 md:px-6 pb-10 pt-6">
-        {/* minimal toolbar */}
+        
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -163,7 +163,7 @@ const AllCourses = () => {
           data-aos="fade-up"
           className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between"
         >
-          {/* search input + buttons */}
+         
           <div className="join w-full md:w-auto">
             <motion.input
               initial={{ opacity: 0, x: -20 }}
@@ -199,7 +199,7 @@ const AllCourses = () => {
             </motion.button>
           </div>
 
-          {/* sort */}
+         
           <motion.select
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -219,7 +219,7 @@ const AllCourses = () => {
 
         {/* grid */}
         {isSearching ? (
-          // simple skeletons while debouncing/"searching"
+          
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

@@ -13,7 +13,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import api from "../api/api"; // ✅ shared axios instance with token
+import api from "../api/api"; 
 
 const FALLBACK_IMG = "https://i.ibb.co/5GzXgmq/avatar.png";
 
@@ -38,18 +38,18 @@ export default function CourseDetails() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
-  // ----- Hydrate from route loader -----
+ 
   const loaderData = useLoaderData();
   const initialCourse = useMemo(() => {
     if (!loaderData) return undefined;
-    // loader might return {result: {...}} or a plain object or [object]
+    
     const c = Array.isArray(loaderData)
       ? loaderData[0]
       : loaderData.result ?? loaderData;
     return c && c._id ? c : undefined;
   }, [loaderData]);
 
-  // ----- Fetch course (with hydration) -----
+  
   const {
     data: fetchedData,
     isLoading,
@@ -58,7 +58,7 @@ export default function CourseDetails() {
   } = useQuery({
     queryKey: ["course", id],
     queryFn: async () => {
-      const resp = await api.get(`/courses/${id}`); // ✅ uses api
+      const resp = await api.get(`/courses/${id}`); 
       return resp.data;
     },
     initialData: initialCourse,
@@ -76,12 +76,12 @@ export default function CourseDetails() {
     }
   }, [course]);
 
-  // ----- Enroll mutation -----
+  
   const {
     mutate: enrollMutate,
     isPending: isEnrolling,
   } = useMutation({
-    mutationFn: (body) => api.post("/my-enrolled-course", body), // ✅ uses api
+    mutationFn: (body) => api.post("/my-enrolled-course", body), 
     onSuccess: () => {
       toast.success("Successfully enrolled in the course!");
       if (user?.email) {
@@ -114,7 +114,7 @@ export default function CourseDetails() {
       return;
     }
 
-    // minimal fields backend actually uses; extra fields are fine too if you want
+    
     enrollMutate({
       courseId: course._id,
       studentEmail: user.email,
@@ -123,7 +123,7 @@ export default function CourseDetails() {
     });
   };
 
-  // ----- Loading / error states -----
+
   if (isLoading && !initialCourse) {
     return (
       <div className="min-h-[60vh] grid place-items-center">
@@ -155,7 +155,7 @@ export default function CourseDetails() {
     );
   }
 
-  // ----- Destructure course -----
+  
   const {
     title,
     imageUrl,
@@ -184,11 +184,11 @@ export default function CourseDetails() {
   const instructorPhoto = instructor?.photoURL || FALLBACK_IMG;
   const instructorEmail = instructor?.email || "";
 
-  // ----- UI -----
+  
   return (
     <div className="py-8 bg-base-100">
       <div className="container mx-auto px-4">
-        {/* Breadcrumbs */}
+      
         <div className="text-sm breadcrumbs mb-4 opacity-80">
           <ul>
             <li>
@@ -252,7 +252,7 @@ export default function CourseDetails() {
                   {description}
                 </p>
 
-                {/* Instructor card */}
+                
                 <div className="mt-6 p-4 rounded-lg bg-base-300/50 flex items-center gap-4">
                   <div className="avatar">
                     <div className="w-14 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
@@ -273,7 +273,7 @@ export default function CourseDetails() {
 
                 <div className="divider" />
 
-                {/* Meta info */}
+                
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
                     <p className="opacity-70">Duration</p>
@@ -304,7 +304,7 @@ export default function CourseDetails() {
             </div>
           </div>
 
-          {/* Sidebar */}
+          
           <aside className="lg:col-span-1">
             <div className="card bg-base-200 shadow-xl sticky top-4">
               <div className="card-body">

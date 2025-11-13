@@ -5,10 +5,10 @@ import { Link } from 'react-router';
 const Footer = () => {
   return (
     <footer className="bg-base-200 text-base-content">
-      {/* Top */}
+      
       <div className="container mx-auto px-4 py-12">
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
-          {/* Brand */}
+         
           <div>
             <Link to="/" className="inline-flex items-center gap-2">
               <span className="text-2xl font-extrabold tracking-tight">SkillSphere</span>
@@ -36,7 +36,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Legal */}
+          
           <div>
             <h4 className="footer-title text-lg font-semibold">Legal</h4>
             <ul className="mt-2 space-y-2">
@@ -46,7 +46,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Newsletter / Contact */}
+         
           <div>
             <h4 className="footer-title text-lg font-semibold">Stay in the loop</h4>
             <form
@@ -77,7 +77,7 @@ const Footer = () => {
             </div>
 
             <div className="mt-4 flex gap-4">
-              {/* X (Twitter) */}
+             
               <a
                 href="https://x.com"
                 target="_blank"
@@ -88,7 +88,7 @@ const Footer = () => {
               >
                 <BsTwitterX />
               </a>
-              {/* YouTube */}
+             
               <a
                 href="https://youtube.com"
                 target="_blank"
@@ -101,7 +101,7 @@ const Footer = () => {
                   <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0C.488 3.45.029 5.804 0 12c.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0C23.512 20.55 23.971 18.196 24 12c-.029-6.185-.484-8.549-4.385-8.816zM9 15.999v-8l8 3.993-8 4.007z"/>
                 </svg>
               </a>
-              {/* Facebook */}
+             
               <a
                 href="https://facebook.com"
                 target="_blank"
@@ -118,7 +118,7 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Back to top */}
+       
         <div className="mt-10 flex justify-end">
           <button
             className="btn btn-ghost btn-sm"
@@ -130,7 +130,7 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Bottom bar */}
+     
       <div className="border-t border-base-300">
         <div className="container mx-auto px-4 py-4 flex flex-col md:flex-row items-center gap-3 justify-between">
           <p className="text-sm opacity-80">
