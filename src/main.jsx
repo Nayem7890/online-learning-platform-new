@@ -1,26 +1,27 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import "./index.css";
 import { createBrowserRouter, Navigate } from "react-router";
 import { RouterProvider } from "react-router/dom";
-import NotFound from './pages/NotFound';
-import MainLayout from './Layouts/MainLayout';
-import Home from './pages/Home';
-import AllCourses from './pages/AllCourses';
-import PrivateRoute from './Routes/PrivateRoute';
-import CourseDetails from './pages/CourseDetails';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Toaster } from 'react-hot-toast';
-import AuthProvider from './Providers/AuthProvider';
-import MyCourses from './pages/MyCourses';
-import AddCourse from './pages/AddCourse';
-import MyEnrolled from './pages/MyEnrolled';
-import DashboardLayout from './Layouts/DashboardLayout';
-import UpdateCourse from './pages/UpdateCourse';
+import NotFound from "./pages/NotFound";
+import MainLayout from "./Layouts/MainLayout";
+import Home from "./pages/Home";
+import AllCourses from "./pages/AllCourses";
+import PrivateRoute from "./Routes/PrivateRoute";
+import CourseDetails from "./pages/CourseDetails";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Toaster } from "react-hot-toast";
+import AuthProvider from "./Providers/AuthProvider";
+import MyCourses from "./pages/MyCourses";
+import AddCourse from "./pages/AddCourse";
+import MyEnrolled from "./pages/MyEnrolled";
+import DashboardLayout from "./Layouts/DashboardLayout";
+import UpdateCourse from "./pages/UpdateCourse";
 
-
+// ✅ Use env var instead of hard-coding Vercel URL
+const API = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 const router = createBrowserRouter([
   {
@@ -29,35 +30,48 @@ const router = createBrowserRouter([
     errorElement: <NotFound />,
     children: [
       { index: true, element: <Home /> },
-      
-      { path: 'home', element: <Navigate to="/" replace /> },
-      { path: "courses", 
-        element: <AllCourses />,
-        loader: () => fetch('http://localhost:3000/courses')
-      },
-      { path: "courses/:id", 
-        element: <PrivateRoute><CourseDetails /></PrivateRoute>,
-        
 
+      // redirect /home -> /
+      { path: "home", element: <Navigate to="/" replace /> },
+
+      {
+        path: "courses",
+        element: <AllCourses />,
+        // public route, so simple fetch is fine
+        loader: () => fetch(`${API}/courses`),
       },
-      { path: "login", 
-        element: <Login /> 
+
+      {
+        path: "courses/:id",
+        element: (
+          <PrivateRoute>
+            <CourseDetails />
+          </PrivateRoute>
+        ),
+        // ❌ no loader here – CourseDetails uses react-query + api instance
       },
-      { path: "register", 
-        element: <Register /> 
-      },
+
+      { path: "login", element: <Login /> },
+      { path: "register", element: <Register /> },
     ],
   },
   {
     path: "/dashboard",
-    element: <PrivateRoute><DashboardLayout /></PrivateRoute>,
+    element: (
+      <PrivateRoute>
+        <DashboardLayout />
+      </PrivateRoute>
+    ),
     children: [
       { path: "add-course", element: <AddCourse /> },
       { path: "my-courses", element: <MyCourses /> },
       { path: "my-enrolled", element: <MyEnrolled /> },
-      { path: "update-course/:id", 
+
+      {
+        path: "update-course/:id",
         element: <UpdateCourse />,
-        loader: ({params}) => fetch(`http://localhost:3000/courses/${params.id}`) 
+        // ❌ remove loader – this route is protected on the server
+        // and UpdateCourse.jsx already fetches via axios/api with token
       },
     ],
   },

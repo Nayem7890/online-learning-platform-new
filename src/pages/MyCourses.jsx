@@ -1,17 +1,17 @@
 // src/pages/MyCourses.jsx
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router";
-
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useAuth } from "../Providers/AuthProvider";
-import api from "../api/api"; 
+import api from "../api/api"; // 👈 use shared axios instance
 
 const FALLBACK_IMG = "https://i.ibb.co/5GzXgmq/avatar.png";
 const fmtPrice = (v) => `$${Number(v || 0).toFixed(2)}`;
-const fmtDur = (v) => (Number.isFinite(Number(v)) ? `${Number(v)}h` : v || "—");
+const fmtDur = (v) =>
+  Number.isFinite(Number(v)) ? `${Number(v)}h` : v || "—";
 
 export default function MyCourses() {
   const { user } = useAuth();
@@ -44,7 +44,6 @@ export default function MyCourses() {
     staleTime: 60_000,
   });
 
-  // optimistic delete
   const deleteMutation = useMutation({
     mutationFn: async (id) => {
       await api.delete(`/courses/${id}`);
@@ -74,7 +73,6 @@ export default function MyCourses() {
     }
   };
 
-  // client-side search + sort
   const filteredSorted = useMemo(() => {
     const q = search.trim().toLowerCase();
     let list = courses;
@@ -116,7 +114,6 @@ export default function MyCourses() {
     });
   }, [courses, search, sort]);
 
-  // --- Auth guard ---
   if (!user?.email) {
     return (
       <div className="min-h-[60vh] grid place-items-center">
@@ -130,7 +127,6 @@ export default function MyCourses() {
     );
   }
 
-  // --- Loading skeleton ---
   if (isLoading) {
     return (
       <div className="py-8 container mx-auto px-4">
@@ -159,7 +155,6 @@ export default function MyCourses() {
     );
   }
 
-  // --- Error state ---
   if (isError) {
     return (
       <div className="min-h-[60vh] grid place-items-center">
@@ -175,7 +170,6 @@ export default function MyCourses() {
     );
   }
 
-  // --- Main content ---
   return (
     <div className="py-8">
       <div className="container mx-auto px-4">
@@ -205,7 +199,7 @@ export default function MyCourses() {
             </Link>
           </div>
 
-          {/* Search and Sort Toolbar */}
+          {/* Search + Sort */}
           <div className="flex flex-col sm:flex-row gap-3">
             <div className="join flex-1">
               <input
@@ -243,7 +237,7 @@ export default function MyCourses() {
           </div>
         </div>
 
-        {/* Results Count */}
+        {/* Count */}
         {filteredSorted.length > 0 && (
           <p className="text-sm opacity-70 mb-4" data-aos="fade-up">
             Showing {filteredSorted.length} course
@@ -251,7 +245,7 @@ export default function MyCourses() {
           </p>
         )}
 
-        {/* Grid */}
+        {/* Grid / Empty */}
         {filteredSorted.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredSorted.map((course, i) => {
